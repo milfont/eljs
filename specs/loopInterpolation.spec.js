@@ -22,16 +22,16 @@ describe('Loop interpolation with helper', function() {
                 helper: function(text) {
                     return text;
                 },
-                partial: function(object, path) {
+                loader: function() {
+                    return "<li>${address.country}</li>";
+                },
+                partial: function(object, template) {
                     return function(item){
-                       console.log(object, path, item);
                        var json = {}; json[object] = item;
-                       
                        var nestedEljs = new Eljs({
                            json: json,
-                           template: "<li>${address.country}</li>" 
+                           template: template
                        });
-                        
                        return nestedEljs.parse();
                     };
                 },
