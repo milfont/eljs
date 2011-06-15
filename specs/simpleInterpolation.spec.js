@@ -1,4 +1,4 @@
-describe('Render template', function() {
+describe('Simple variable interpolation and statements', function() {
     
     beforeEach( function () {
         template = global["template"];
