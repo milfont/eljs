@@ -5,7 +5,7 @@ global.window = require("jsdom")
 global.jQuery = require("jquery").create(window);
 
 //Test framework
-var jasmine=require('jasmine-node');
+var jasmine = require('jasmine-node');
 
 //What we're testing
 //require(__dirname + "/lib/jsonform.js")
@@ -13,15 +13,17 @@ global.Eljs = require(__dirname + "/src/el.js").Eljs;
 
 // Templates 
 var fs = require('fs');
-var templatePath = __dirname + '/specs/template.html';
-
+var templatePath           = __dirname + '/specs/template.html';
 var templateWithHelperPath = __dirname + '/specs/templateWithHelper.html';
+var loopTemplatePath       = __dirname + '/specs/loopTemplate.html';
 
-var template = fs.readFileSync(templatePath).toString();
+var template           = fs.readFileSync(templatePath).toString();
 var templateWithHelper = fs.readFileSync(templateWithHelperPath).toString();
+var loopTemplate       = fs.readFileSync(loopTemplatePath).toString();
 
-global["template"] = template;
+global["template"]           = template;
 global["templateWithHelper"] = templateWithHelper;
+global["loopTemplate"]       = loopTemplate;
 
 var isVerbose = true;
 var showColors = true;

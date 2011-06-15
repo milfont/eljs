@@ -10,7 +10,6 @@
  
 function Eljs(config) {
     this.version  = "0.0.1";
-    var self      = this;
     this.config   = config;
     this.json     = config.json     || {};
     this.template = config.template || "";

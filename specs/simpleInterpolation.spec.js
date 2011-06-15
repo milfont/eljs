@@ -1,8 +1,8 @@
 describe('Simple variable interpolation and statements', function() {
-    
+
+    var userTest, renderedTemplate;
+
     beforeEach( function () {
-        template = global["template"];
-        templateWithHelper = global["templateWithHelper"];
         userTest = {
             name: "Christiano Milfont",
             address: [{
