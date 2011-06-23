@@ -19,7 +19,7 @@ describe('Simple variable interpolation and statements', function() {
                 "user": userTest
             }
         });
-        expect(renderedTemplate.toString()).toEqual(EljsRenderer.parse().replace(/\n/g, ""));
+        expect(renderedTemplate.toString()).toEqual(EljsRenderer.parse());
     });
     
     it('should parser with helper block', function(){
@@ -34,7 +34,7 @@ describe('Simple variable interpolation and statements', function() {
                 }
             }
         });
-        expect(renderedTemplate.toString()).toEqual(EljsRenderer.parse().replace(/\n/g, ""));
+        expect(renderedTemplate.toString()).toEqual(EljsRenderer.parse());
     });
     
 });

@@ -13,9 +13,9 @@ global.Eljs = require(__dirname + "/src/el.js").Eljs;
 
 // Templates 
 var fs = require('fs');
-var templatePath           = __dirname + '/specs/template.html';
-var templateWithHelperPath = __dirname + '/specs/templateWithHelper.html';
-var loopTemplatePath       = __dirname + '/specs/loopTemplate.html';
+var templatePath           = __dirname + '/specs/templates/template.html';
+var templateWithHelperPath = __dirname + '/specs/templates/templateWithHelper.html';
+var loopTemplatePath       = __dirname + '/specs/templates/loopTemplate.html';
 
 var template           = fs.readFileSync(templatePath).toString();
 var templateWithHelper = fs.readFileSync(templateWithHelperPath).toString();
