@@ -16,14 +16,17 @@ var fs = require('fs');
 var templatePath           = __dirname + '/specs/templates/template.html';
 var templateWithHelperPath = __dirname + '/specs/templates/templateWithHelper.html';
 var loopTemplatePath       = __dirname + '/specs/templates/loopTemplate.html';
+var partialTemplatePath    = __dirname + '/specs/templates/templateWithPartial.html';
 
 var template           = fs.readFileSync(templatePath).toString();
 var templateWithHelper = fs.readFileSync(templateWithHelperPath).toString();
 var loopTemplate       = fs.readFileSync(loopTemplatePath).toString();
+var partialTemplate    = fs.readFileSync(partialTemplatePath).toString();
 
 global["template"]           = template;
 global["templateWithHelper"] = templateWithHelper;
 global["loopTemplate"]       = loopTemplate;
+global["partialTemplate"]    = partialTemplate;
 
 var isVerbose = true;
 var showColors = true;

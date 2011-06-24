@@ -13,7 +13,7 @@ function Eljs(config) {
     this.json     = config.json     || {};
     this.template = config.template || "";
     this.loader   = config.loader   || function() {};
-    this.pattern  = /\${([^}]*)}/g;
+    this.pattern  = /\$\{([^}]+)\}/g;
     this.helpers  = {};
     if(config.helpers) {
         for(var name in config.helpers) {
