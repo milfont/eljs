@@ -29,7 +29,7 @@ function Eljs(config) {
             bodyFunction += " var " + name + " = " + collectionName + "." + name + "; ";
         }
         return bodyFunction;
-    }
+    };
 };
 
 Eljs.prototype = {
