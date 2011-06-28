@@ -7,8 +7,9 @@
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  */
- 
+
 function Eljs(config) {
+    var self = this;
     this.version  = "0.0.1";
     this.json     = config.json     || {};
     this.template = config.template || "";
@@ -41,10 +42,10 @@ Eljs.prototype = {
     parseStatement: function(statement) {
         var self = this;
         var bodyFunction = self._prepareBodyFunction("", self.json, "json");
-        bodyFunction = self._prepareBodyFunction(bodyFunction, self.helpers, "helpers");
-        var el = bodyFunction + "return " + statement + ";";
-        var parser = new Function("json", "helpers", "loader", el);
-        return parser(self.json, self.helpers, self.loader);
+            bodyFunction = self._prepareBodyFunction(bodyFunction, self.helpers, "helpers");
+        var el = bodyFunction + " return " + statement + ";";
+        var parser = new Function("json", "helpers", el);
+        return parser(self.json, self.helpers);
     }
 }
 

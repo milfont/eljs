@@ -1,50 +1,109 @@
 describe('Strategies of partials', function() {
 
-    var userTest, renderedTemplate;
+    var userTest, renderedTemplate, helpers;
 
-    beforeEach( function () {
-        userTest = {
-            name: "Christiano Milfont",
-            address: [{
-                country: "Brazil"
-            }]
-        };
-        renderedTemplate = "<div><span>Christiano Milfont</span></div><ul><li>Brazil</li></ul>";
-    });
+    describe('When have HTML Snippets', function(){
 
-    it('should parser a simple statement', function () {
-        var EljsRenderer = new Eljs({ 
-            template: loopTemplate
-            , json : {
-                "user": userTest
-            }
-            , helpers: {
-                helper: function(text) {
-                    return text;
-                },
-                loader: function() {
-                    return "<li>${address.country}</li>";
-                },
-                partial: function(object, template) {
-                    return function(item){
-                       var json = {}; json[object] = item;
-                       var nestedEljs = new Eljs({
-                           json: json,
-                           template: template
-                       });
-                       return nestedEljs.parse();
-                    };
-                },
-                forEach: function(collection, callback) {
-                    var content = "";
-                    for (var element = 0; element < collection.length; element++) {
-                        content += callback(collection[element]);
-                    };
-                    return content;
+        beforeEach( function () {
+            userTest = {
+                name: "Christiano Milfont",
+                address: [{
+                    country: "Brazil"
+                }]
+            };
+            renderedTemplate = "<div><span>Christiano Milfont</span></div><ul><li>Brazil</li></ul>";
+
+            helpers = function() {
+                var fileLoader = function(template) {
+                    var fs = require('fs');
+                    var templatePath = __dirname + '/templates/' + template + '.partial.html';
+                    var template     = fs.readFileSync(templatePath).toString();
+                    return template;
+                };
+
+                return {
+                    fileLoader: fileLoader,
+                    partial: function(collection, template) {
+                        var partialTemplate = "";
+                        collection.forEach(function(item){
+                            var json = {}; json[template] = item;
+                            var nestedEljs = new Eljs({
+                                json: json,
+                                template: fileLoader(template)
+                            });
+                            partialTemplate = nestedEljs.parse();
+                        });
+                        return partialTemplate;
+                    },
+                    helper: function(text) {
+                        return text;
+                    }
                 }
             }
+
         });
-        expect(renderedTemplate.toString()).toEqual(EljsRenderer.parse().replace(/\n/g, ""));
+
+        it('should parser a statement with partial', function () {
+            var EljsRenderer = new Eljs({ 
+                template: partialTemplate
+                , json : {
+                    "user": userTest
+                }
+                , helpers: helpers()
+            });
+            expect(renderedTemplate.toString()).toEqual(EljsRenderer.parse().replace(/\n/g, ""));
+        });
+
+    })
+
+    describe('When have HTML Sprites', function(){
+        beforeEach( function () {
+            userTest = {
+                name: "Christiano Milfont",
+                address: [{
+                    country: "Brazil"
+                }]
+            };
+            renderedTemplate = "<div><span>Christiano Milfont</span></div><ul><li>Brazil</li></ul>";
+
+            helpers = function() {
+
+                var loader = function() {
+                    return "<li>${address.country}</li>";
+                };
+
+                return {
+                    loader: loader,
+                    partial: function(collection, template) {
+                        var partialTemplate = "";
+                        collection.forEach(function(item){
+                            var json = {}; json[template] = item;
+                            var nestedEljs = new Eljs({
+                                json: json,
+                                template: loader()
+                            });
+                            partialTemplate = nestedEljs.parse();
+                        });
+                        return partialTemplate;
+                    },
+                    helper: function(text) {
+                        return text;
+                    }
+                }
+            }
+
+        });
+
+        it('should parser a statement with partial', function () {
+            var EljsRenderer = new Eljs({ 
+                template: partialTemplate
+                , json : {
+                    "user": userTest
+                }
+                , helpers: helpers()
+            });
+            expect(renderedTemplate.toString()).toEqual(EljsRenderer.parse().replace(/\n/g, ""));
+        });
     });
     
 });
