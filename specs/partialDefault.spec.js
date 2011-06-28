@@ -1,8 +1,8 @@
 describe('Strategies of partials', function() {
 
-    var userTest, renderedTemplate, helpers;
+    var userTest, renderedTemplate, helpers, spriteLoader;
 
-    describe('When have HTML Snippets', function(){
+    describe('When have HTML Snippets in external file', function(){
 
         beforeEach( function () {
             userTest = {
@@ -43,7 +43,7 @@ describe('Strategies of partials', function() {
 
         });
 
-        it('should parser a statement with partial', function () {
+        it('should parser a statement with spartial', function () {
             var EljsRenderer = new Eljs({ 
                 template: partialTemplate
                 , json : {
@@ -56,7 +56,7 @@ describe('Strategies of partials', function() {
 
     })
 
-    describe('When have HTML Sprites', function(){
+    describe('When have HTML Sprites in same file', function(){
         beforeEach( function () {
             userTest = {
                 name: "Christiano Milfont",
@@ -66,21 +66,27 @@ describe('Strategies of partials', function() {
             };
             renderedTemplate = "<div><span>Christiano Milfont</span></div><ul><li>Brazil</li></ul>";
 
+            var fs = require('fs');
+            var templatePath = __dirname + '/templates/sprites.html';
+            var template     = fs.readFileSync(templatePath).toString();
+            jQuery("body").html("");
+            jQuery(template).appendTo("body");
+
+            spriteLoader = function(sprite) {
+                var snippet = jQuery("#"+sprite).html().toString();
+                return snippet;
+            };
+
             helpers = function() {
-
-                var loader = function() {
-                    return "<li>${address.country}</li>";
-                };
-
                 return {
-                    loader: loader,
+                    spriteLoader: spriteLoader,
                     partial: function(collection, template) {
                         var partialTemplate = "";
                         collection.forEach(function(item){
                             var json = {}; json[template] = item;
                             var nestedEljs = new Eljs({
                                 json: json,
-                                template: loader()
+                                template: spriteLoader(template)
                             });
                             partialTemplate = nestedEljs.parse();
                         });
@@ -91,12 +97,11 @@ describe('Strategies of partials', function() {
                     }
                 }
             }
-
         });
 
         it('should parser a statement with partial', function () {
             var EljsRenderer = new Eljs({ 
-                template: partialTemplate
+                template: spriteLoader("user")
                 , json : {
                     "user": userTest
                 }
