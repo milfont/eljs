@@ -12,7 +12,7 @@ describe('Strategies of nested partials', function() {
                 }]
             }
         };
-        renderedTemplate = "    <div><span>Christiano Milfont</span></div>    <ul>    <span>Milfont Consulting</span>    <ul>            <li>Brazil</li>    </ul></ul>";
+        renderedTemplate = "    <div><span>Christiano Milfont</span></div>    <ul>    <span>Milfont Consulting</span>    <ul>     <li>Brazil</li> </ul></ul>";
 
         var fs = require('fs');
         var templatePath = __dirname + '/templates/nestedSprites.html';

@@ -13,7 +13,6 @@ function Eljs(config) {
     this.version  = "0.0.1";
     this.json     = config.json     || {};
     this.template = config.template || "";
-    this.loader   = config.loader   || function() {};
     this.pattern  = /\$\{([^}]+)\}/g;
     this.helpers  = {};
     if(config.helpers) {
