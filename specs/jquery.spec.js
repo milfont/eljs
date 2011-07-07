@@ -26,7 +26,8 @@ describe('jQuery Plugin', function() {
             }
         });
         //require plugin
-        require(__dirname + "/src/jquery.el");
+        //require(__dirname + "/src/jquery.el");
+        require("../src/jquery.el");
     });
 
     it('should parser a template with jQuery', function () {
