@@ -25,11 +25,13 @@ function Eljs(config) {
     }
     this._prepareBodyFunction = function(bodyFunction, collection, collectionName) {
         for(var name in collection) {
-            bodyFunction += " var " + name + " = " + collectionName + "." + name + "; ";
+            if(typeof name !== "undefined") {
+                bodyFunction += " this." + name + " = " + collectionName + "." + name + "; ";
+            }
         }
         return bodyFunction;
     };
-};
+}
 
 Eljs.prototype = {
     parse : function() {
@@ -46,6 +48,6 @@ Eljs.prototype = {
         var parser = new Function("json", "helpers", el);
         return parser(self.json, self.helpers);
     }
-}
+};
 
-if(module) module.exports.Eljs = Eljs;
+if(module) { module.exports.Eljs = Eljs; }
