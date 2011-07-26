@@ -18,9 +18,6 @@ describe('Closure in helper', function() {
         it('should a closure between helpers', function () {
             var EljsRenderer = new Eljs({ 
                 template: partialTemplate
-                , json : {
-                    "user": userTest
-                }
                 , helpers: {
                     fileLoader: function(template) {
                         var fs = require('fs');
@@ -45,7 +42,10 @@ describe('Closure in helper', function() {
                     }
                 }
             });
-            expect(renderedTemplate.toString()).toEqual(EljsRenderer.parse().replace(/\n/g, ""));
+            var json = {
+                    "user": userTest
+                };
+            expect(renderedTemplate.toString()).toEqual(EljsRenderer.parse(json).replace(/\n/g, ""));
         });
 
     })

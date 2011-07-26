@@ -10,44 +10,89 @@
 
 function Eljs(config) {
     var self = this;
-    this.version  = "0.0.1";
-    this.json     = config.json     || {};
-    this.template = config.template || "";
+    this.version  = "0.1.0";
     this.pattern  = /\$\{([^}]+)\}/g;
-    this.helpers  = {};
-    if(config.helpers) {
-        for(var name in config.helpers) {
-            if(typeof name !== "undefined") {
-                var fn = config.helpers[name];
-                this.helpers[name] = fn;
-            }
+    this.compiled = false;
+    this.compiledTemplate = '';
+    this.cache    = {};
+
+    this.processConfig = function(configuration) {
+        this.json     = configuration.json     || {};
+        this.template = configuration.template || "";
+    };
+    this.processConfig(config);
+
+    var merge = (function merge(merged, source) {
+         for(var property in source) {
+             if(typeof source[property] === 'object' &&
+                typeof merged[property] !== "undefined") {
+                 merge(merged[property], source[property]);
+             } else {
+                merged[property] = source[property];
+             }
+         }
+        return merged;
+    });
+
+    var _compiledStatements;
+    var parser   = function parser(jsonELJS,helpersELJS) {
+        merge(this, jsonELJS);
+        merge(this, _compiledStatements());
+        merge(this, config.helpers);
+        var pr = (function(jsonELJS) {
+             return function(key) {
+                var fn = this['_ELJS_' + key];
+                return (fn) ? fn() : "";
+             }
+        })(jsonELJS);
+        return function(key) {
+            return pr(key);
         }
     }
-    this._prepareBodyFunction = function(bodyFunction, collection, collectionName) {
-        for(var name in collection) {
-            if(typeof name !== "undefined") {
-                bodyFunction += " this." + name + " = " + collectionName + "." + name + "; ";
-            }
+
+    this._createCompiledStatements = function(){
+        var bodyFunction = "var methods = [];";
+        for(var item in this.cache) {
+            var value = this.cache[item];
+            bodyFunction += "methods['_ELJS_"+item+"'] = function() { return " + value + "; };";
         }
-        return bodyFunction;
+        bodyFunction += " return methods;"
+        return new Function(bodyFunction);;
     };
+    
+    this._compile = function() {
+        var self = this;
+        this.compiledTemplate = this.template.replace(this.pattern, function(exp, value, index, string){
+            self.cache[index] = value;
+            return "${" + index + "}";
+        });
+        _compiledStatements = this._createCompiledStatements();
+        this.compiled = true;
+        return this;
+    };
+
+    this._parse = function() {
+        var html = "";
+        var self = this;
+        var prsr = parser(self.json);
+        html = this.compiledTemplate.replace(this.pattern, function(exp, value, index, string){
+            return prsr(value)
+        });
+        return html;
+    };
+    
 }
 
 Eljs.prototype = {
-    parse : function() {
-        var self = this;
-        return self.template.replace(self.pattern, function(content, statement, index, template){
-            return self.parseStatement(statement);
-        });
+    compile: function(config) {
+        if(typeof config !== 'undefined') this.processConfig(config);
+        return this._compile();
     },
-    parseStatement: function(statement) {
-        var self = this;
-        var bodyFunction = self._prepareBodyFunction("", self.json, "json");
-            bodyFunction = self._prepareBodyFunction(bodyFunction, self.helpers, "helpers");
-        var el = bodyFunction + " return " + statement + ";";
-        var parser = new Function("json", "helpers", el);
-        return parser(self.json, self.helpers);
+    parse : function(json) {
+        if(json) this.json = json;
+        if(!this.compiled) this.compile();
+        return this._parse();
     }
 };
 
-if(module) { module.exports.Eljs = Eljs; }
+if(typeof module !== 'undefined') { module.exports.Eljs = Eljs; }

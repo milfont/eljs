@@ -31,23 +31,18 @@ describe('jQuery Plugin', function() {
     });
 
     it('should parser a template with jQuery', function () {
-
         var user_profile = jQuery("#user_profile");
-
         user_profile.render({
             url: '/templates/nestedSprites.html'
             , template: "user"
             , json: {"user": userTest }
         });
-
         waitsFor(function(){
             return user_profile.html() !== "";
         }, "Rendered Template", 10000);
-
         runs(function(){
             expect(user_profile.html().replace(/\n/g, "")).toEqual(renderedTemplate.toString());
         });
-
     });
     
 });

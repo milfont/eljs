@@ -10,7 +10,6 @@
         return {
             spriteLoader: spriteLoader,
             partial: function(collection, template) {
-
                 var partialTemplate = "";
                 if(collection.forEach) {
                     collection.forEach(function(item){
@@ -47,6 +46,9 @@
     };
 
     $.fn.extend({
+        compile: function(config) {
+            
+        },
         render: function(config) {
             var self = this;
             $.ajax({
