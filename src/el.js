@@ -1,5 +1,5 @@
 /*!
- * eljs 0.0.1
+ * eljs 0.1.0
  * The template markup engine that uses Javascript as an expression language.
  * https://github.com/cmilfont/eljs
  *
