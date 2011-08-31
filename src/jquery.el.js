@@ -17,8 +17,8 @@
                         json[template] = item;
                         var nestedEljs = new Eljs({
                             json: json,
-                            template: spriteLoader(template)
-                            , helpers: helpers()
+                            template: spriteLoader(template),
+                            helpers: helpers()
                         });
                         partialTemplate = nestedEljs.parse();
                     });
@@ -27,21 +27,21 @@
                     json[template] = collection;
                     var nestedEljs = new Eljs({
                         json: json,
-                        template: spriteLoader(template)
-                        , helpers: helpers()
+                        template: spriteLoader(template),
+                        helpers: helpers()
                     });
                     partialTemplate = nestedEljs.parse();
                 }
                 return partialTemplate;
             }
-        }
+        };
     };
 
     var render = function(config) {
         return (new Eljs({ 
-            template: spriteLoader( config.template )
-            , json : config.json
-            , helpers: helpers()
+            template: spriteLoader( config.template ),
+            json : config.json, 
+            helpers: helpers()
         })).parse();
     };
 
@@ -52,9 +52,9 @@
         render: function(config) {
             var self = this;
             $.ajax({
-                url: config.url
-                , dataType: "html"
-                , success: function(data){
+                url: config.url,
+                dataType: "html",
+                success: function(data){
                     content.html(data);
                     var rendered = render(config);
                     self.html( rendered );

@@ -5,6 +5,7 @@
     {
         "jsdom"        : "0.2.1",
         "jquery"       : "1.5.1",
+        "readyjs"      : "https://github.com/cmilfont/ready.js/tarball/master",
         "jasmine-node" : "https://github.com/milfont/jasmine-node/tarball/master"
     }
    , "engines" : { "node" : ">=v0.5.1" }

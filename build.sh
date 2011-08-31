@@ -2,4 +2,4 @@
 #
 #https://github.com/dsimard/ready.js
 
-readyjs ready.conf.js
+./node_modules/ready.js/bin/ready.js ready.conf.js
