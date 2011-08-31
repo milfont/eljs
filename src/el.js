@@ -43,21 +43,23 @@ function Eljs(config) {
              return function(key) {
                 var fn = this['_ELJS_' + key];
                 return (fn) ? fn() : "";
-             }
+             };
         })(jsonELJS);
         return function(key) {
             return pr(key);
-        }
-    }
+        };
+    };
 
     this._createCompiledStatements = function(){
         var bodyFunction = "var methods = [];";
         for(var item in this.cache) {
-            var value = this.cache[item];
-            bodyFunction += "methods['_ELJS_"+item+"'] = function() { return " + value + "; };";
+            if(this.cache[item]) {
+                var value = this.cache[item];
+                bodyFunction += "methods['_ELJS_"+item+"'] = function() { return " + value + "; };";
+            }
         }
-        bodyFunction += " return methods;"
-        return new Function(bodyFunction);;
+        bodyFunction += " return methods;";
+        return new Function(bodyFunction);
     };
     
     this._compile = function() {
@@ -74,9 +76,9 @@ function Eljs(config) {
     this._parse = function() {
         var html = "";
         var self = this;
-        var prsr = parser(self.json);
+        var prepared_parser = parser(self.json);
         html = this.compiledTemplate.replace(this.pattern, function(exp, value, index, string){
-            return prsr(value)
+            return prepared_parser(value);
         });
         return html;
     };
@@ -85,12 +87,12 @@ function Eljs(config) {
 
 Eljs.prototype = {
     compile: function(config) {
-        if(typeof config !== 'undefined') this.processConfig(config);
+        if(typeof config !== 'undefined') { this.processConfig(config); }
         return this._compile();
     },
     parse : function(json) {
-        if(json) this.json = json;
-        if(!this.compiled) this.compile();
+        if(json) { this.json = json; }
+        if(!this.compiled) { this.compile(); }
         return this._parse();
     }
 };
