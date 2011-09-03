@@ -8,5 +8,5 @@
         "readyjs"      : "https://github.com/cmilfont/ready.js/tarball/master",
         "jasmine-node" : "1.0.6"
     }
-   , "engines" : { "node" : ">=v0.5.1" }
+   , "engines" : { "node" : "v0.4.11" }
 }

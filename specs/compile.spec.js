@@ -20,7 +20,6 @@ describe('Strategies of compile template', function() {
 
             spriteLoader = function(sprite) {
                 var html = jQuery(content).find("#"+sprite).html().toString();
-                console.log("HTML", html);
                 return html
             };
 
