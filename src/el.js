@@ -38,7 +38,7 @@ function Eljs(config) {
         return merged;
     });
 
-    this._compiledStatements = {};
+    var _compiledStatements;
     var parser   = function parser(jsonELJS,helpersELJS) {
         merge(this, jsonELJS);
         merge(this, _compiledStatements());
@@ -73,7 +73,7 @@ function Eljs(config) {
             self.cache[index] = value;
             return "${" + index + "}";
         });
-        this._compiledStatements = this._createCompiledStatements();
+        _compiledStatements = this._createCompiledStatements();
         this.compiled = true;
         return this;
     };
