@@ -73,7 +73,7 @@ function Eljs(config) {
             self.cache[index] = value;
             return "${" + index + "}";
         });
-        _compiledStatements = this._createCompiledStatements();
+        this._compiledStatements = this._createCompiledStatements();
         this.compiled = true;
         return this;
     };
