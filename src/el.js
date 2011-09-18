@@ -38,7 +38,7 @@ function Eljs(config) {
         return merged;
     });
 
-    this._compiledStatements;
+    this._compiledStatements = {};
     var parser   = function parser(jsonELJS,helpersELJS) {
         merge(this, jsonELJS);
         merge(this, _compiledStatements());
