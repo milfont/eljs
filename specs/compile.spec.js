@@ -78,7 +78,7 @@ describe('Strategies of compile template', function() {
                 }
             });
             var parser = EljsRenderer.compile({
-                template: spriteLoader("user2"),
+                template: spriteLoader("user2")
             });
             var rendered = parser.parse(json).replace(/\n/g, "");
             expect(renderedTemplate.toString()).toEqual(rendered);

@@ -7,7 +7,6 @@
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  */
-
 function Eljs(config) {
     var self = this;
     this.version  = "0.1.1";
@@ -39,7 +38,7 @@ function Eljs(config) {
         return merged;
     });
 
-    var _compiledStatements;
+    this._compiledStatements;
     var parser   = function parser(jsonELJS,helpersELJS) {
         merge(this, jsonELJS);
         merge(this, _compiledStatements());
