@@ -102,9 +102,9 @@ https://raw.github.com/twitter/bootstrap/master/bootstrap-1.1.0.css
 	font-size: 13px;
   	line-height: 30px;
   	text-align:center;
-	background: url(/imagens/Snow-UI-Kit_0001s_0000s_0001_Shape-11.png)  no-repeat ;
+	background: url(imagens/Snow-UI-Kit_0001s_0000s_0001_Shape-11.png)  no-repeat ;
 }
 
 .modal .modal-footer .btn:hover { 
-	background: url(/imagens/Snow-UI-Kit_0001s_0001s_0001_Shape-11-copy.png)  no-repeat ;
+	background: url(imagens/Snow-UI-Kit_0001s_0001s_0001_Shape-11-copy.png)  no-repeat ;
 }
