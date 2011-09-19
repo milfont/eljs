@@ -2,4 +2,4 @@ test:
 	./testrunner
 
 build:
-    ./build.sh
+	./build.sh
