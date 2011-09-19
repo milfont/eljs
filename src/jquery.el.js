@@ -43,32 +43,31 @@ Object.defineProperty(Object.prototype, 'trying', {
     };
     
     $.extend({
-    	clearTemplates: function() {
-    		sprites.html("");
-    		templates = {};
-    	},
+        clearTemplates: function() {
+        sprites.html("");
+            templates = {};
+        },
         compileTemplates: function(templateConfig, callback) {
-        	
-        	var helpers = templateConfig.helpers || {};
-        	helpers["partial"] = function(sprite) {
+            var helpers = templateConfig.helpers || {};
+            helpers.partial = function(sprite) {
                 var json = templates[templateConfig.sprite].json;
                 var html = "";
                 var engine = findEngine(sprite);
                 var arr = json.trying(sprite);
-                for(var i = 0; i < arr.length; i++) {
-                    var singularized = sprite.split(".").last().replace(/s$/i, "").toLowerCase();
-                    var partialJSON = {};
-                    partialJSON[singularized] = arr[i];
-                    html = html + engine.parse(partialJSON);
-                }
-                return html;
-            }
-        	
+                for (var i = 0; i < arr.length; i++) {
+					var singularized = sprite.split(".").last().replace(/s$/i,
+							"").toLowerCase();
+					var partialJSON = {};
+					partialJSON[singularized] = arr[i];
+					html = html + engine.parse(partialJSON);
+				}
+				return html;
+			};
            $.get(templateConfig.url, function(template) {
                 sprites.append(template);
                 /**
-                 * Partial Process
-                 */
+				 * Partial Process
+				 */
                 var partials = template.match(pattern);
                 if(partials) {
                     for(var i = 0; i < partials.length; i++) {
