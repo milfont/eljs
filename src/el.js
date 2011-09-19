@@ -9,7 +9,7 @@
  */
 function Eljs(config) {
     var self = this;
-    this.version  = "0.1.1";
+    this.version  = "0.2.0";
     this.pattern  = /\$\{([^}]+)\}/g;
     this.compiled = false;
     this.compiledTemplate = '';

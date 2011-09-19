@@ -1,0 +1,19 @@
+<div id="Widgets.Modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>${Widgets.Modal.head.title}</h3>
+        <a href="#" class="close">×</a>
+      </div>
+      <div class="modal-body">
+        <p>${ boldText("test") }</p>
+        <p>${Widgets.Modal.body}</p>
+      </div>
+      <div class="modal-footer">
+         ${partial("Widgets.Buttons")}
+      </div>
+    </div>
+</div>
+
+<div id="Widgets.Buttons">
+   <a href="#" name="${button.name}" class="${button.css}">${ boldText(button.text) }</a>
+</div>

@@ -1,6 +1,6 @@
 describe('jQuery Plugin', function() {
 
-    var jsonTemplate, renderedTemplate, _body;
+    var jsonTemplate, renderedTemplate, renderedTemplate2, _body;
 
     beforeEach( function () {
         jsonTemplate = {
@@ -22,6 +22,7 @@ describe('jQuery Plugin', function() {
                 }
             };
         renderedTemplate = '    <div class="modal">      <div class="modal-header">        <h3>Teste de Modal</h3>        <a href="#" class="close">×</a>          </div>      <div class="modal-body">        <p>Teste do corpo</p>      </div>      <div class="modal-footer">            <a href="#" name="Butao" class="teste">Salvar</a>   <a href="#" name="Butao" class="teste">Editar</a>      </div>    </div>';
+        renderedTemplate2 = '    <div class="modal">      <div class="modal-header">        <h3>Teste de Modal</h3>        <a href="#" class="close">×</a>      </div>      <div class="modal-body">        <p><b>test</b></p>        <p>Teste do corpo</p>      </div>      <div class="modal-footer">            <a href="#" name="Butao" class="teste"><b>Salvar</b></a>   <a href="#" name="Butao" class="teste"><b>Editar</b></a>      </div>    </div>';
         _body = jQuery("body");
         _body.html("");
         
@@ -37,10 +38,11 @@ describe('jQuery Plugin', function() {
         //require plugin
         //require(__dirname + "/src/jquery.el");
         require("../src/jquery.el");
+        
     });
 
-    it('should compile a template with jQuery', function () {
-    	
+    it('should compile and render a template with jQuery', function () {
+    	jQuery.clearTemplates();
     	jQuery.compileTemplates({
             url: "/templates/sprite.jquery.html", sprite: "Widgets.Modal"
         });
@@ -50,6 +52,27 @@ describe('jQuery Plugin', function() {
         }, "Rendered Template", 10000);
         runs(function(){
             expect(_body.html().replace(/\n/g, "")).toEqual(renderedTemplate.toString());
+        });
+        
+    });
+
+    it('should render with helpers', function () {
+        jQuery.clearTemplates();
+        jQuery.compileTemplates({
+            url: "/templates/helpers.sprite.jquery.html", 
+            sprite: "Widgets.Modal",
+            helpers: {
+            	boldText: function(value) {
+            		return "<b>" + value + "</b>";
+            	}
+            }
+        });
+        
+        waitsFor(function(){
+            return _body.render(jsonTemplate, "Widgets.Modal").html() !== "";
+        }, "Rendered Template", 10000);
+        runs(function(){
+            expect(_body.html().replace(/\n/g, "")).toEqual(renderedTemplate2.toString());
         });
         
     });

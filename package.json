@@ -1,5 +1,5 @@
 { "name" : "eljs"
-   , "version" : "0.1.1"
+   , "version" : "0.2.0"
    , "description" : "The template markup engine that uses Javascript as an expression language"
    , "devDependencies" :
     {

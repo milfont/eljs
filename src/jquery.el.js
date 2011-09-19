@@ -43,7 +43,27 @@ Object.defineProperty(Object.prototype, 'trying', {
     };
     
     $.extend({
+    	clearTemplates: function() {
+    		sprites.html("");
+    		templates = {};
+    	},
         compileTemplates: function(templateConfig, callback) {
+        	
+        	var helpers = templateConfig.helpers || {};
+        	helpers["partial"] = function(sprite) {
+                var json = templates[templateConfig.sprite].json;
+                var html = "";
+                var engine = findEngine(sprite);
+                var arr = json.trying(sprite);
+                for(var i = 0; i < arr.length; i++) {
+                    var singularized = sprite.split(".").last().replace(/s$/i, "").toLowerCase();
+                    var partialJSON = {};
+                    partialJSON[singularized] = arr[i];
+                    html = html + engine.parse(partialJSON);
+                }
+                return html;
+            }
+        	
            $.get(templateConfig.url, function(template) {
                 sprites.append(template);
                 /**
@@ -62,21 +82,7 @@ Object.defineProperty(Object.prototype, 'trying', {
 
                 templates[templateConfig.sprite] = new Eljs({
                     template: spriteLoader(templateConfig.sprite),
-                    helpers: {
-                        partial: function(sprite) {
-                            var json = templates[templateConfig.sprite].json;
-                            var html = "";
-                            var engine = findEngine(sprite);
-                            var arr = json.trying(sprite);
-                            for(var i = 0; i < arr.length; i++) {
-                                var singularized = sprite.split(".").last().replace(/s$/i, "").toLowerCase();
-                                var partialJSON = {};
-                                partialJSON[singularized] = arr[i];
-                                html = html + engine.parse(partialJSON);
-                            }
-                            return html;
-                        }
-                    }
+                    helpers: helpers
                 }).compile();
                 if(typeof callback === "function") {
                     callback( templates[templateConfig.sprite] );
