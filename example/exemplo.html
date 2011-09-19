@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
+       Remove this if you use the .htaccess -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>Indica</title>
+  <meta name="description" content="Javascript Fundamental" />
+  <meta name="author" content="Christiano Milfont" />
+
+  <link rel="stylesheet" href="indica.css" type="text/css">
+  
+</head>
+
+<body>
+
+    <div style=" width: 700px; margin:auto;">
+        <h2>Compilar o template</h2>
+        <script src="https://gist.github.com/1227453.js?file=compile.js"></script>
+        <h2>Renderizar o template</h2>
+        <script src="https://gist.github.com/1227453.js?file=render.js"></script>
+        <button>Renderizar</button>
+    </div>
+    
+
+  <script type="text/javascript">var module = {exports : []};</script>
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="https://raw.github.com/milfont/eljs/master/src/minified/el.min.js"></script>
+
+  <script type="text/javascript">
+        jsonTemplate = {
+            "Widgets": {
+                Modal: {
+                    head: {
+                        title: "Teste de Modal"
+                    },
+                    body: "Teste do corpo"
+                },
+                Buttons: [
+                    {
+                        name: "Butao", css: "teste",  text: "Salvar"
+                    },
+                    {
+                        name: "Butao", css: "teste",  text: "Editar"
+                    }
+                ]
+            }
+        };
+        $.compileTemplates({
+            url: "tmpl.modal.html", sprite: "Widgets.Modal"
+        })
+        $("button").click(function(){
+            $modal = $("<div>").render(jsonTemplate, "Widgets.Modal", "tmpl.modal.html");
+            $modal.find(".close").click(function(){
+                $(this).parent().parent().parent().remove();
+                return false;
+            });
+            $(document.body).append($modal);
+        });
+  </script>
+
+
+
+</body>
+</html>
