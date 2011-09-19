@@ -59,7 +59,6 @@ function Eljs(config) {
         for(var item in this.cache) {
             if(this.cache[item]) {
                 var value = this.cache[item];
-                if(item.search(/partialSprite/g) > -1) {/* TODO */}
                 bodyFunction += "methods['_ELJS_"+item+"'] = function() { return " + value + "; };";
             }
         }
@@ -70,7 +69,7 @@ function Eljs(config) {
     this._compile = function() {
         var self = this;
         this.compiledTemplate = this.template.replace(this.pattern, function(exp, value, index, string){
-            self.cache[index] = value;
+            self.cache[index] = value.replace(/&quot;/g, "\'");
             return "${" + index + "}";
         });
         _compiledStatements = this._createCompiledStatements();

@@ -30,7 +30,7 @@ describe('jQuery Plugin', function() {
         require("../src/jquery.el");
     });
 
-    it('should parser a template with jQuery', function () {
+    xit('should parser a template with jQuery', function () {
         var user_profile = jQuery("#user_profile");
         user_profile.render({
             url: '/templates/nestedSprites.html'
