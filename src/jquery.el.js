@@ -44,7 +44,7 @@ Object.defineProperty(Object.prototype, 'trying', {
     
     $.extend({
         clearTemplates: function() {
-        sprites.html("");
+            sprites.html("");
             templates = {};
         },
         compileTemplates: function(templateConfig, callback) {
@@ -65,9 +65,6 @@ Object.defineProperty(Object.prototype, 'trying', {
 			};
            $.get(templateConfig.url, function(template) {
                 sprites.append(template);
-                /**
-				 * Partial Process
-				 */
                 var partials = template.match(pattern);
                 if(partials) {
                     for(var i = 0; i < partials.length; i++) {
@@ -78,7 +75,6 @@ Object.defineProperty(Object.prototype, 'trying', {
                         }).compile();
                     }
                 }
-
                 templates[templateConfig.sprite] = new Eljs({
                     template: spriteLoader(templateConfig.sprite),
                     helpers: helpers
@@ -91,7 +87,6 @@ Object.defineProperty(Object.prototype, 'trying', {
     });
     
     $.fn.extend({
-        
         render: function(json, sprite, url) {
             var content = $(this);
             var fnCallback = function(renderer) {
