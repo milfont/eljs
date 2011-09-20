@@ -31,8 +31,9 @@ describe('jQuery Plugin', function() {
             ajax: function( ajax ) {
                 var fs = require('fs');
                 var templatePath = __dirname + ajax.url;
-                var template     = fs.readFileSync(templatePath).toString();
-                ajax.success(template);
+                fs.readFile(templatePath, function (err, data) {
+                  ajax.success( data.toString() );
+                });
             }
         });
         //require plugin
@@ -48,10 +49,12 @@ describe('jQuery Plugin', function() {
         });
     	
         waitsFor(function(){
-            return _body.render(jsonTemplate, "Widgets.Modal").html() !== "";
+        	return typeof jQuery.getTemplates()["Widgets.Modal"] !== "undefined";
         }, "Rendered Template", 10000);
         runs(function(){
-            expect(_body.html().replace(/\n/g, "")).toEqual(renderedTemplate.toString());
+        	var renderedHTML = _body.render(jsonTemplate, "Widgets.Modal").html().replace(/\n/g, ""); 
+            expect(renderedHTML)
+                .toEqual(renderedTemplate.toString());
         });
         
     });
@@ -69,10 +72,12 @@ describe('jQuery Plugin', function() {
         });
         
         waitsFor(function(){
-            return _body.render(jsonTemplate, "Widgets.Modal").html() !== "";
+        	return typeof jQuery.getTemplates()["Widgets.Modal"] !== "undefined";
         }, "Rendered Template", 10000);
         runs(function(){
-            expect(_body.html().replace(/\n/g, "")).toEqual(renderedTemplate2.toString());
+        	var renderedHTML = _body.render(jsonTemplate, "Widgets.Modal").html().replace(/\n/g, "");
+            expect(renderedHTML)
+                .toEqual(renderedTemplate2.toString());
         });
         
     });

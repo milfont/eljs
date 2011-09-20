@@ -43,6 +43,9 @@ Object.defineProperty(Object.prototype, 'trying', {
     };
     
     $.extend({
+    	getTemplates: function() {
+    		return templates;
+    	},
         clearTemplates: function() {
             sprites.html("");
             templates = {};

@@ -21,8 +21,10 @@ describe('jQuery Plugin', function() {
             ajax: function( ajax ) {
                 var fs = require('fs');
                 var templatePath = __dirname + ajax.url;
-                var template     = fs.readFileSync(templatePath).toString();
-                ajax.success(template);
+                fs.readFile(templatePath, function (err, data) {
+                  if (err) throw err;
+                  ajax.success(data.toString());
+                });
             }
         });
         //require plugin
