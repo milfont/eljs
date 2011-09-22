@@ -1,0 +1,78 @@
+<div id="statement-withdrawals">
+    <table> 
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Company/Enterprise</th>
+            <th>Opportunity</th>
+            <th>Status</th>
+            <th>Operation</th>
+            <th>Points</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <td colspan="7"><em>Total</em></td>
+            <td><em>300</em></td>
+        </tr>
+        </tfoot>
+        <tbody>
+            ${partial("withdrawals")}       
+        </tbody>
+      </table>
+</div>
+
+<div id="withdrawals">
+    <tr>
+        <td> <a href="#/statements/${withdrawal._id}">see</a> </td>
+        <td> ${withdrawal.date} </td>
+        <td> <a href="#/companies/${withdrawal.company._id}">${withdrawal.company.name}</a> </td>
+        <td> </td>
+        <td> ${withdrawal.status}</td>
+        <td> ${withdrawal.operation} </td>
+        <td> ${withdrawal.points} </td>
+        <td> ${withdrawal.balance}  </td>
+    </tr>
+</div>
+
+<div id="statement-profits">
+    <table> 
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Company/Enterprise</th>
+            <th>Opportunity</th>
+            <th>Status</th>
+            <th>Operation</th>
+            <th>Points</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <td colspan="7"><em>Total</em></td>
+            <td><em>300</em></td>
+        </tr>
+        </tfoot>
+        <tbody>
+            ${partial("profits")}       
+        </tbody>
+      </table>
+</div>
+
+
+<div id="profits">
+    <tr>
+        <td> <a href="#/statements/${profit._id}">see</a> </td>
+        <td> ${profit.date} </td>
+        <td> <a href="#/companies/${profit.company._id}">${profit.company.name}</a> </td>
+        <td> <a href="#/opportunity/${profit.opportunity._id}">${profit.opportunity.product.name}</a> </td>
+        <td> ${profit.status}</td>
+        <td> ${profit.operation} </td>
+        <td> ${profit.points} </td>
+        <td> ${profit.balance}  </td>
+    </tr>
+</div>

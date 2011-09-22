@@ -29,7 +29,7 @@ Object.defineProperty(Object.prototype, 'trying', {
 
     var sprites = $("<div>");
     var templates = {};
-    var pattern  = /\$\{partial\(([^}]+)\)\}/g;
+    var pattern  = /\$\{(\s*?)\partial\(([^}]+)\)\}/g;
 
     var spriteLoader = function(sprite) {
         sprite = "div#" + sprite.replace(/\"/g, "").replace(/\./g, "\\.").toString();
@@ -43,9 +43,9 @@ Object.defineProperty(Object.prototype, 'trying', {
     };
     
     $.extend({
-    	getTemplates: function() {
-    		return templates;
-    	},
+        getTemplates: function() {
+            return templates;
+        },
         clearTemplates: function() {
             sprites.html("");
             templates = {};
@@ -71,7 +71,7 @@ Object.defineProperty(Object.prototype, 'trying', {
                 var partials = template.match(pattern);
                 if(partials) {
                     for(var i = 0; i < partials.length; i++) {
-                        var nestedTemplate = partials[i].replace(pattern, "$1");
+                        var nestedTemplate = partials[i].replace(pattern, "$2");
                         var tmpl = spriteLoader(nestedTemplate);
                         templates[nestedTemplate] = new Eljs({
                             template: tmpl
