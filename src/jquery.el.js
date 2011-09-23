@@ -8,7 +8,7 @@ Object.defineProperty(Object.prototype, 'trying', {
     enumerable: false,
     value: function(propriedade) {
         return (function percorrer(property, objeto) {
-            var hierarquia = property.split(".");
+            var hierarquia = (property.split)? property.split(".") : [""];
             objeto = objeto[ hierarquia.shift() ];
             return (hierarquia.length > 0 && typeof objeto !== "undefined")?
                 percorrer(hierarquia.join("."), objeto) : objeto;
