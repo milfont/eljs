@@ -6,22 +6,13 @@ if(typeof Array.prototype.last == "undefined") {
 
 Object.defineProperty(Object.prototype, 'trying', {
     enumerable: false,
-    value: function(property) {
-        var retorno = false;
-        var lastProperty = this;
-        (function percorrer(property) {
-            var hierarchy = property.split(".");
-            var first = hierarchy[0];
-            lastProperty = (lastProperty) ?  lastProperty[first]: undefined;
-            var type = typeof lastProperty;
-            retorno = (type != 'undefined');
-            if(type == 'function') {lastProperty = lastProperty();}
-            if(hierarchy.length > 1) {
-                first = hierarchy.shift();
-                percorrer(hierarchy.join("."));
-            }
-        })(property);
-        return (retorno)? lastProperty : retorno;
+    value: function(propriedade) {
+        return (function percorrer(property, objeto) {
+            var hierarquia = property.split(".");
+            objeto = objeto[ hierarquia.shift() ];
+            return (hierarquia.length > 0 && typeof objeto !== "undefined")?
+                percorrer(hierarquia.join("."), objeto) : objeto;
+        })(propriedade, this);
     }
 });
 
