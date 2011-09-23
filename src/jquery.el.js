@@ -4,17 +4,14 @@ if(typeof Array.prototype.last == "undefined") {
   };
 }
 
-Object.defineProperty(Object.prototype, 'trying', {
-    enumerable: false,
-    value: function(propriedade) {
-        return (function percorrer(property, objeto) {
-            var hierarquia = (property.split)? property.split(".") : [""];
-            objeto = objeto[ hierarquia.shift() ];
-            return (hierarquia.length > 0 && typeof objeto !== "undefined")?
-                percorrer(hierarquia.join("."), objeto) : objeto;
-        })(propriedade, this);
-    }
-});
+var trying = function(propriedade) {
+    return (function percorrer(property, objeto) {
+        var hierarquia = (property.split)? property.split(".") : [""];
+        objeto = objeto[ hierarquia.shift() ];
+        return (hierarquia.length > 0 && typeof objeto !== "undefined")?
+            percorrer(hierarquia.join("."), objeto) : objeto;
+    })(propriedade, this);
+};
 
 (function($) {
 
@@ -45,6 +42,7 @@ Object.defineProperty(Object.prototype, 'trying', {
             var helpers = templateConfig.helpers || {};
             helpers.partial = function(sprite) {
                 var json = templates[templateConfig.sprite].json;
+                json.trying = trying;
                 var html = "";
                 var engine = findEngine(sprite);
                 var arr = json.trying(sprite);
