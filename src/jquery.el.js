@@ -38,7 +38,7 @@ var trying = function(propriedade) {
             sprites.html("");
             templates = {};
         },
-        compileTemplates: function(templateConfig, callback) {
+        compileTemplates: function(templateConfig) {
             var helpers = templateConfig.helpers || {};
             helpers.partial = function(sprite) {
                 var json = templates[templateConfig.sprite].json;
@@ -71,25 +71,28 @@ var trying = function(propriedade) {
                     template: spriteLoader(templateConfig.sprite),
                     helpers: helpers
                 }).compile();
-                if(typeof callback === "function") {
-                    callback( templates[templateConfig.sprite] );
+                if(typeof templateConfig.callback === "function") {
+                    templateConfig.callback( templates[templateConfig.sprite] );
                 }
             });
         }
     });
     
     $.fn.extend({
-        render: function(json, sprite, url, callback) {
+        render: function(templateConfig) {
             var content = $(this);
-            var fnCallback = function(renderer) {
-                content.append(renderer.parse(json));
-                if(callback) { callback(content); }
-            };
-            var engine = findEngine(sprite);
+            var fnCallback = (function(cb) {
+                return function(renderer) {
+                    content.append(renderer.parse(templateConfig.json));
+                    if(cb) { cb(content); }
+                };
+            })(templateConfig.callback);
+            templateConfig.callback = fnCallback;
+            var engine = findEngine(templateConfig.sprite);
             if(engine) {
                 fnCallback(engine);
             } else {
-                $.compileTemplates({url: url, sprite: sprite}, fnCallback);
+                $.compileTemplates(templateConfig);
             }
             return content;
         }

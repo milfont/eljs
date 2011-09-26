@@ -1,6 +1,6 @@
 describe('jQuery Plugin with Table', function() {
 
-    var jsonTemplate, renderedTemplate, renderedTemplate2, _body;
+    var jsonTemplate, renderedTemplate, renderedTemplate2, _body, templateConfig;
     
     beforeEach( function () {
         jsonTemplate = {
@@ -59,36 +59,34 @@ describe('jQuery Plugin with Table', function() {
 
     it('should render a template using withdrawals sprite', function () {
         jQuery.clearTemplates();
-        jQuery.compileTemplates({
+        templateConfig = {
             url: "/templates/account.statement.html", sprite: "statement-withdrawals"
-        });
+        };
+        jQuery.compileTemplates(templateConfig);
         waitsFor(function(){
             return typeof jQuery.getTemplates()["statement-withdrawals"] !== "undefined";
         }, "Rendered Template", 10000);
         runs(function(){
-            var renderedHTML = _body.render({
-                withdrawals: [jsonTemplate]
-            }, "statement-withdrawals").html().replace(/\n/g, ""); 
-            expect(renderedHTML)
-                .toEqual(renderedTemplate.toString());
+        	templateConfig.json = { withdrawals: [jsonTemplate]  };
+            var renderedHTML = _body.render(templateConfig).html().replace(/\n/g, ""); 
+            expect(renderedHTML).toEqual(renderedTemplate.toString());
         });
         
     });
 
     it('should render a template using profits sprite', function () {
         jQuery.clearTemplates();
-        jQuery.compileTemplates({
+        templateConfig = {
             url: "/templates/account.statement.html", sprite: "statement-profits"
-        });
+        };
+        jQuery.compileTemplates(templateConfig);
         waitsFor(function(){
             return typeof jQuery.getTemplates()["statement-profits"] !== "undefined";
         }, "Rendered Template", 10000);
         runs(function(){
-            var renderedHTML2 = _body.render({
-                profits: [jsonTemplate]
-            }, "statement-profits").html().replace(/\n/g, ""); 
-            expect(renderedHTML2)
-                .toEqual(renderedTemplate2.toString());
+        	templateConfig.json = { profits: [jsonTemplate]  };
+            var renderedHTML2 = _body.render(templateConfig).html().replace(/\n/g, ""); 
+            expect(renderedHTML2).toEqual(renderedTemplate2.toString());
         });
         
     });

@@ -1,6 +1,6 @@
 describe('jQuery Plugin', function() {
 
-    var jsonTemplate, renderedTemplate, renderedTemplate2, _body;
+    var jsonTemplate, renderedTemplate, renderedTemplate2, _body, templateConfig;
 
     beforeEach( function () {
         jsonTemplate = {
@@ -39,45 +39,45 @@ describe('jQuery Plugin', function() {
         //require plugin
         //require(__dirname + "/src/jquery.el");
         require("../src/jquery.el");
-        
     });
 
     it('should compile and render a template with jQuery', function () {
     	jQuery.clearTemplates();
-    	jQuery.compileTemplates({
-            url: "/templates/sprite.jquery.html", sprite: "Widgets.Modal"
-        });
-    	
+        templateConfig = {
+            url: "/templates/sprite.jquery.html", 
+            sprite: "Widgets.Modal"
+        };
+    	jQuery.compileTemplates(templateConfig);
         waitsFor(function(){
         	return typeof jQuery.getTemplates()["Widgets.Modal"] !== "undefined";
         }, "Rendered Template", 10000);
         runs(function(){
-        	var renderedHTML = _body.render(jsonTemplate, "Widgets.Modal").html().replace(/\n/g, ""); 
-            expect(renderedHTML)
-                .toEqual(renderedTemplate.toString());
+        	templateConfig.json = jsonTemplate;
+        	var renderedHTML = _body.render(templateConfig).html().replace(/\n/g, ""); 
+            expect(renderedHTML).toEqual(renderedTemplate.toString());
         });
         
     });
 
     it('should render with helpers', function () {
         jQuery.clearTemplates();
-        jQuery.compileTemplates({
+        templateConfig = {
             url: "/templates/helpers.sprite.jquery.html", 
             sprite: "Widgets.Modal",
             helpers: {
-            	boldText: function(value) {
-            		return "<b>" + value + "</b>";
-            	}
+                boldText: function(value) {
+                    return "<b>" + value + "</b>";
+                }
             }
-        });
-        
+        };
+        jQuery.compileTemplates(templateConfig);
         waitsFor(function(){
         	return typeof jQuery.getTemplates()["Widgets.Modal"] !== "undefined";
         }, "Rendered Template", 10000);
         runs(function(){
-        	var renderedHTML = _body.render(jsonTemplate, "Widgets.Modal").html().replace(/\n/g, "");
-            expect(renderedHTML)
-                .toEqual(renderedTemplate2.toString());
+        	templateConfig.json = jsonTemplate;
+        	var renderedHTML = _body.render(templateConfig).html().replace(/\n/g, "");
+            expect(renderedHTML).toEqual(renderedTemplate2.toString());
         });
         
     });
