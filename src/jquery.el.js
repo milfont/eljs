@@ -79,10 +79,11 @@ var trying = function(propriedade) {
     });
     
     $.fn.extend({
-        render: function(json, sprite, url) {
+        render: function(json, sprite, url, callback) {
             var content = $(this);
             var fnCallback = function(renderer) {
                 content.append(renderer.parse(json));
+                if(callback) { callback(content); }
             };
             var engine = findEngine(sprite);
             if(engine) {
