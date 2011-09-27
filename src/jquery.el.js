@@ -83,7 +83,7 @@ var trying = function(propriedade) {
             var content = $(this);
             var fnCallback = (function(cb) {
                 return function(renderer) {
-                    content.append(renderer.parse(templateConfig.json));
+                    content.html(renderer.parse(templateConfig.json));
                     if(cb) { cb(content); }
                 };
             })(templateConfig.callback);
