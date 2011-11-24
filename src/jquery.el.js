@@ -13,6 +13,18 @@ var trying = function(propriedade) {
     })(propriedade, this);
 };
 
+var merge = (function merge(merged, source) {
+    for(var property in source) {
+        if(typeof source[property] === 'object' &&
+        typeof merged[property] !== "undefined") {
+            merge(merged[property], source[property]);
+        } else {
+            merged[property] = source[property];
+        }
+    }
+    return merged;
+});
+
 (function($) {
 
     var sprites = $("<div>");
@@ -47,14 +59,15 @@ var trying = function(propriedade) {
                 var engine = findEngine(sprite);
                 var arr = json.trying(sprite);
                 for (var i = 0; i < arr.length; i++) {
-					var singularized = sprite.split(".").last().replace(/s$/i,
-							"").toLowerCase();
-					var partialJSON = {};
-					partialJSON[singularized] = arr[i];
-					html = html + engine.parse(partialJSON);
-				}
-				return html;
-			};
+                    var singularized = sprite.split(".").last().replace(/s$/i,
+                            "").toLowerCase();
+                    var partialJSON = {};
+                    partialJSON[singularized] = arr[i];
+                    html = html + engine.parse(partialJSON);
+                }
+                return html;
+            };
+            
            $.get(templateConfig.url, function(template) {
                 sprites.append(template);
                 var partials = template.match(pattern);
@@ -87,12 +100,16 @@ var trying = function(propriedade) {
                     if(cb) { cb(content); }
                 };
             })(templateConfig.callback);
-            templateConfig.callback = fnCallback;
+            
             var engine = findEngine(templateConfig.sprite);
+            
+            var tc = merge({}, templateConfig);
+            tc.callback = fnCallback;
+            
             if(engine) {
-                fnCallback(engine);
+                tc.callback(engine);
             } else {
-                $.compileTemplates(templateConfig);
+                $.compileTemplates(tc);
             }
             return content;
         }

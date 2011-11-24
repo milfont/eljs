@@ -7,7 +7,7 @@
         "jsdom"        : "0.2.1",
         "jquery"       : "1.5.1",
         "jasmine-node" : "1.0.6",
-        "ready.js"      : "1.3.3"
+        "ready.js"     : "1.3.3"
     }
    , "engines" : { "node" : ">=v0.4.10" }
    , "main": "./src/el.js"
