@@ -46,11 +46,12 @@
                 ]
             }
         };
-        $.compileTemplates({
-            url: "tmpl.modal.html", sprite: "Widgets.Modal"
-        })
+        var config = {
+            url: "tmpl.modal.html", sprite: "Widgets.Modal", json: jsonTemplate
+        }
+        $.compileTemplates(config);
         $("button").click(function(){
-            $modal = $("<div>").render(jsonTemplate, "Widgets.Modal", "tmpl.modal.html");
+            $modal = $("<div>").render(config);
             $modal.find(".close").click(function(){
                 $(this).parent().parent().parent().remove();
                 return false;
