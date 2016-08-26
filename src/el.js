@@ -1,5 +1,5 @@
 /*!
- * eljs 0.1.1
+ * eljs 0.2.0
  * The template markup engine that uses Javascript as an expression language.
  * https://github.com/cmilfont/eljs
  *
@@ -14,14 +14,13 @@ function Eljs(config) {
     this.compiled = false;
     this.compiledTemplate = '';
     this.cache    = {};
+    this.json     = {};
+    this.template = ""; 
 
     this.processConfig = function(configuration) {
         if(configuration) {
             this.json     = configuration.json     || {};
             this.template = configuration.template || "";
-        } else {
-            this.json     = {};
-            this.template = ""; 
         }
     };
     this.processConfig(config);

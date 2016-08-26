@@ -4,11 +4,11 @@
    , "devDependencies" :
     {
         "express"      : "2.4.6",
-        "jsdom"        : "0.2.1",
-        "jquery"       : "1.5.1",
-        "jasmine-node" : "1.0.6",
-        "ready.js"     : "1.3.3"
+        "jsdom"        : "*",
+        "jquery"       : "*",
+        "jasmine-node" : "*",
+        "ready.js"     : "*"
     }
-   , "engines" : { "node" : ">=v0.4.10" }
+   , "engines" : { "node" : ">=v0.10.1" }
    , "main": "./src/el.js"
 }
